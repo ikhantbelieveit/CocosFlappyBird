@@ -1,53 +1,45 @@
 import { _decorator, Component, Node, Vec3, UITransform, director, Canvas } from 'cc';
 const { ccclass, property } = _decorator;
 
+@ccclass('GroundItem')
+export class GroundItem {
+    @property({
+        type:Node,
+        tooltip:'Node is here'
+    })
+
+    public node: Node;
+    public width: number;
+    public tempStartLocation = new Vec3;
+}
+
 @ccclass('Ground')
 export class Ground extends Component {
 
-    @property({
-        type:Node,
-        tooltip:'Ground 1 is here'
-    })
-
-    public ground1: Node;
-
-    @property({
-        type:Node,
-        tooltip:'Ground 2 is here'
-    })
-
-    public ground2: Node;
-
-    @property({
-        type:Node,
-        tooltip:'Ground 3 is here'
-    })
-
-    public ground3: Node;
-
-    public groundWidth1: number;
-    public groundWidth2: number;
-    public groundWidth3: number;
-
-    public tempStartLocation1 = new Vec3;
-    public tempStartLocation2 = new Vec3;
-    public tempStartLocation3 = new Vec3;
+    @property([GroundItem])
+    public groundItems: GroundItem[] = [];
 
     public groundScrollSpeed: number = 50;
 
     initialise()
     {
-        this.groundWidth1 = this.ground1.getComponent(UITransform).width;
-        this.groundWidth2 = this.ground2.getComponent(UITransform).width;
-        this.groundWidth3 = this.ground3.getComponent(UITransform).width;
+        this.groundItems.forEach((item: GroundItem, index: number) => 
+        {
+            item.width = item.node.getComponent(UITransform).width;
+            item.tempStartLocation.x = this.getTotalWidthBeforeIndex(index);
 
-        this.tempStartLocation1.x = 0;
-        this.tempStartLocation2.x = this.groundWidth1;
-        this.tempStartLocation3.x = this.groundWidth1 + this.groundWidth2;
+            item.node.setPosition(item.tempStartLocation);
+        })
+    }
 
-        this.ground1.setPosition(this.tempStartLocation1);
-        this.ground2.setPosition(this.tempStartLocation2);
-        this.ground3.setPosition(this.tempStartLocation3);
+    getTotalWidthBeforeIndex(targetIndex: number): number
+    {
+        let returnVal = 0;
+        for(let lookIndex = 0; lookIndex < targetIndex; ++lookIndex)
+        {
+            returnVal += this.groundItems[targetIndex].width;
+        }
+        return returnVal;
     }
 
     onLoad()
@@ -56,35 +48,21 @@ export class Ground extends Component {
     }
 
     update(deltaTime: number) {
-        this.tempStartLocation1 = this.ground1.position;
-        this.tempStartLocation2 = this.ground2.position;
-        this.tempStartLocation3 = this.ground3.position;
-
-        this.tempStartLocation1.x -= this.groundScrollSpeed * deltaTime;
-        this.tempStartLocation2.x -= this.groundScrollSpeed * deltaTime;
-        this.tempStartLocation3.x -= this.groundScrollSpeed * deltaTime;
-
-        const scene = director.getScene();
-        const canvas = scene.getComponentInChildren(Canvas);
-
-        if(this.tempStartLocation1.x <= (0 - this.groundWidth1))
+        this.groundItems.forEach((item: GroundItem, index: number) => 
         {
-            this.tempStartLocation1.x = canvas.getComponent(UITransform).width;
-        }
+            item.tempStartLocation = item.node.position;
+            item.tempStartLocation.x -= this.groundScrollSpeed * deltaTime;
 
-        if(this.tempStartLocation2.x <= (0 - this.groundWidth2))
-        {
-            this.tempStartLocation2.x = canvas.getComponent(UITransform).width;
-        }
+            const scene = director.getScene();
+            const canvas = scene.getComponentInChildren(Canvas);
 
-        if(this.tempStartLocation3.x <= (0 - this.groundWidth3))
-        {
-            this.tempStartLocation3.x = canvas.getComponent(UITransform).width;
-        }
+            if(item.tempStartLocation.x <= (0 - item.width))
+            {
+                item.tempStartLocation.x = canvas.getComponent(UITransform).width;
+            }
 
-        this.ground1.setPosition(this.tempStartLocation1);
-        this.ground2.setPosition(this.tempStartLocation2);
-        this.ground3.setPosition(this.tempStartLocation3);
+            item.node.setPosition(item.tempStartLocation);
+        })
     }
 }
 

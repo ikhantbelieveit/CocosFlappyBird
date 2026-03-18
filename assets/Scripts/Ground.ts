@@ -42,7 +42,7 @@ export class Ground extends Component {
         return returnVal;
     }
 
-    OnLoad()
+    onLoad()
     {
         this.initialise();
     }

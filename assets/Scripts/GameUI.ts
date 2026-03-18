@@ -17,22 +17,22 @@ export class GameUI extends Component {
     })
     public GameOverPanel: GameOverPanel;
 
-    public OnGameStarted()
+    public onGameStarted()
     {
-        this.ToggleGameOverUI(false);
+        this.toggleGameOverUI(false);
     }
 
-    public OnGameOver(maxScore: number)
+    public onGameOver(maxScore: number)
     {
-        this.GameOverPanel.InitOnGameOver(maxScore);
+        this.GameOverPanel.initOnGameOver(maxScore);
     }
 
-    UpdateCurrentScoreLabel(newScore: number)
+    updateCurrentScoreLabel(newScore: number)
     {
         this.CurrentScoreLabel.string = newScore.toString();
     }
 
-    ToggleGameOverUI(enabled: boolean)
+    toggleGameOverUI(enabled: boolean)
     {
         this.GameOverPanel.node.active = enabled;
     }

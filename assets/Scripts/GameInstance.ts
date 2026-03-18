@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, Component, Node } from 'cc';
+import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { Ground } from './Ground'
@@ -38,43 +38,56 @@ export class GameInstance extends Component {
     private currentScore: number;
     private maxScore: number;
 
-    OnLoad()
+    onLoad()
     {
+        console.log("[HELLO] Game Instance OnLoad");
         this.Ground.GroundScrollSpeed = this.Settings.ScrollSpeed;
 
-        this.GameUI.OnGameStarted();
+        this.GameUI.onGameStarted();
+        console.log("[HELLO] GameUI should trigger OnGameStarted");
     }
 
-    InitListener()
+    initListener()
+    {
+        input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this)
+    }
+
+    onKeyDown(event: EventKeyboard)
+    {
+        switch(event.keyCode)
+        {
+            case KeyCode.KEY_A:
+                this.incrementScore();
+                console.log("should increment score - new score ", this.currentScore);
+                break;
+        }
+    }
+
+    startGame()
     {
 
     }
 
-    StartGame()
+    incrementScore()
     {
-
+        this.setScore(this.currentScore + 1);
     }
 
-    IncrementScore()
-    {
-        this.SetScore(this.currentScore + 1);
-    }
-
-    private SetScore(newScore: number)
+    private setScore(newScore: number)
     {
         this.currentScore = newScore;
-        this.GameUI.UpdateCurrentScoreLabel(this.currentScore);
+        this.GameUI.updateCurrentScoreLabel(this.currentScore);
     }
 
-    ResetScore()
+    resetScore()
     {
-        this.SetScore(0);
+        this.setScore(0);
     }
 
-    TriggerGameOver()
+    triggerGameOver()
     {
         this.maxScore = Math.max(this.maxScore, this.currentScore);
-        this.GameUI.OnGameOver(this.maxScore);
+        this.GameUI.onGameOver(this.maxScore);
     }
 }
 

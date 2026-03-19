@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode } from 'cc';
+import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode, director } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { Ground } from './Ground'
@@ -78,6 +78,7 @@ export class GameInstance extends Component {
     {
         this.setScore(0);
         this.GameUI.resetUI();
+        director.resume();
     }
 
     incrementScore()
@@ -100,6 +101,7 @@ export class GameInstance extends Component {
     {
         this.maxScore = Math.max(this.maxScore, this.currentScore);
         this.GameUI.onGameOver(this.maxScore);
+        director.pause();
     }
 }
 

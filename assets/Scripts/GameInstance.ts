@@ -40,11 +40,12 @@ export class GameInstance extends Component {
 
     onLoad()
     {
-        console.log("[HELLO] Game Instance OnLoad");
         this.Ground.GroundScrollSpeed = this.Settings.ScrollSpeed;
+        this.maxScore = 0;
 
-        this.GameUI.onGameStarted();
-        console.log("[HELLO] GameUI should trigger OnGameStarted");
+        this.startGame();
+
+        this.initListener();
     }
 
     initListener()
@@ -58,14 +59,25 @@ export class GameInstance extends Component {
         {
             case KeyCode.KEY_A:
                 this.incrementScore();
-                console.log("should increment score - new score ", this.currentScore);
+                break;
+            case KeyCode.KEY_Z:
+                this.triggerGameOver();
+                break;
+            case KeyCode.KEY_R:
+                this.resetGame();
                 break;
         }
     }
 
     startGame()
     {
+        this.resetGame();
+    }
 
+    resetGame()
+    {
+        this.setScore(0);
+        this.GameUI.resetUI();
     }
 
     incrementScore()

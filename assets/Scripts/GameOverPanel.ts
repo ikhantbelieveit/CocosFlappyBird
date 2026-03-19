@@ -11,7 +11,7 @@ export class GameOverPanel extends Component {
 
     initOnGameOver(maxScore: number)
     {
-        this.MaxScoreLabel.string = "HIGH SCORE: ", maxScore.toString();
+        this.MaxScoreLabel.string = ("HIGH SCORE: " + maxScore);
     }
 }
 

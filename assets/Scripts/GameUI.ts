@@ -1,8 +1,7 @@
-import { _decorator, Component, Label, Node, Toggle } from 'cc';
+import { _decorator, Component, Label } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { GameOverPanel } from './GameOverPanel'
-import { GameInstance } from './GameInstance'
 
 @ccclass('GameUI')
 export class GameUI extends Component {
@@ -19,12 +18,18 @@ export class GameUI extends Component {
 
     public onGameStarted()
     {
+        this.resetUI();
+    }
+
+    public resetUI()
+    {
         this.toggleGameOverUI(false);
     }
 
     public onGameOver(maxScore: number)
     {
         this.GameOverPanel.initOnGameOver(maxScore);
+        this.toggleGameOverUI(true);
     }
 
     updateCurrentScoreLabel(newScore: number)

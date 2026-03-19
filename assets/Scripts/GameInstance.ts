@@ -3,6 +3,7 @@ const { ccclass, property } = _decorator;
 
 import { Ground } from './Ground'
 import { GameUI } from './GameUI'
+import { PlayerMovement } from './PlayerMovement'
 
 @ccclass('GameInstanceSettings')
 export class GameInstanceSettings {
@@ -24,6 +25,11 @@ export class GameInstance extends Component {
         type:GameInstanceSettings
     })
     public Settings:GameInstanceSettings;
+
+    @property({
+        type:PlayerMovement
+    })
+    public PlayerMovement: PlayerMovement;
 
     @property({
         type:Ground
@@ -50,7 +56,11 @@ export class GameInstance extends Component {
 
     initListener()
     {
-        input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this)
+        input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+
+        this.node.on(Node.EventType.TOUCH_START, () => {
+            this.PlayerMovement.flap();
+        })
     }
 
     onKeyDown(event: EventKeyboard)
@@ -66,6 +76,9 @@ export class GameInstance extends Component {
             case KeyCode.KEY_R:
                 this.resetGame();
                 break;
+            case KeyCode.SPACE:
+                this.PlayerMovement.flap();
+                break;
         }
     }
 
@@ -76,6 +89,7 @@ export class GameInstance extends Component {
 
     resetGame()
     {
+        this.PlayerMovement.reset();
         this.setScore(0);
         this.GameUI.resetUI();
         director.resume();

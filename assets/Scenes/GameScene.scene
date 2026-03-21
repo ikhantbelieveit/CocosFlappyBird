@@ -20,13 +20,13 @@
         "__id__": 2
       },
       {
-        "__id__": 60
+        "__id__": 62
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 64
+      "__id__": 67
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -57,7 +57,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 65
+      "__id__": 68
     },
     "_id": "40326871-1321-49bb-a78b-9a92c1cbc436"
   },
@@ -84,18 +84,21 @@
       },
       {
         "__id__": 28
+      },
+      {
+        "__id__": 57
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 57
-      },
-      {
-        "__id__": 58
-      },
-      {
         "__id__": 59
+      },
+      {
+        "__id__": 60
+      },
+      {
+        "__id__": 61
       }
     ],
     "_prefab": null,
@@ -2069,6 +2072,73 @@
     "_id": "12qKwj/f1Pq4whqclF693n"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "PipePool",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 2
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 58
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 33554432,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "d9si2ayrlOf7helOZhTroY"
+  },
+  {
+    "__type__": "cc.UITransform",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 57
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 100
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_id": "72D7Vi6yZNx5MONKkVqbwb"
+  },
+  {
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
@@ -2148,10 +2218,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 61
+        "__id__": 63
       },
       {
-        "__id__": 62
+        "__id__": 64
+      },
+      {
+        "__id__": 66
       }
     ],
     "_prefab": null,
@@ -2190,7 +2263,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 60
+      "__id__": 62
     },
     "_enabled": true,
     "__prefab": null,
@@ -2212,15 +2285,18 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
-      "__id__": 60
+      "__id__": 62
     },
     "_enabled": true,
     "__prefab": null,
     "Settings": {
-      "__id__": 63
+      "__id__": 65
     },
     "PlayerMovement": {
       "__id__": 12
+    },
+    "PipePool": {
+      "__id__": 66
     },
     "Ground": {
       "__id__": 24
@@ -2233,7 +2309,26 @@
   {
     "__type__": "GameInstanceSettings",
     "ScrollSpeed": 50,
-    "PipeSpeed": 40
+    "PipeSpeed": 100
+  },
+  {
+    "__type__": "f43b5MccEpABKDt7nI9s3Fh",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 62
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "PipePrefab": {
+      "__uuid__": "196d6c0d-5e9c-438b-9896-b231b03f2daf",
+      "__expectedType__": "cc.Prefab"
+    },
+    "PipePoolHome": {
+      "__id__": 57
+    },
+    "_id": "78jW3BhdhErpVBQn6YT1T0"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2246,28 +2341,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 66
-    },
-    "shadows": {
-      "__id__": 67
-    },
-    "_skybox": {
-      "__id__": 68
-    },
-    "fog": {
       "__id__": 69
     },
-    "octree": {
+    "shadows": {
       "__id__": 70
     },
-    "skin": {
+    "_skybox": {
       "__id__": 71
     },
-    "lightProbeInfo": {
+    "fog": {
       "__id__": 72
     },
-    "postSettings": {
+    "octree": {
       "__id__": 73
+    },
+    "skin": {
+      "__id__": 74
+    },
+    "lightProbeInfo": {
+      "__id__": 75
+    },
+    "postSettings": {
+      "__id__": 76
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

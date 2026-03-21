@@ -4,6 +4,7 @@ const { ccclass, property } = _decorator;
 import { Ground } from './Ground'
 import { GameUI } from './GameUI'
 import { PlayerMovement } from './PlayerMovement'
+import { PipePool } from './PipePool';
 
 @ccclass('GameInstanceSettings')
 export class GameInstanceSettings {
@@ -30,6 +31,11 @@ export class GameInstance extends Component {
         type:PlayerMovement
     })
     public PlayerMovement: PlayerMovement;
+
+    @property({
+        type:PipePool
+    })
+    public PipePool: PipePool;
 
     @property({
         type:Ground
@@ -92,6 +98,7 @@ export class GameInstance extends Component {
         this.PlayerMovement.reset();
         this.setScore(0);
         this.GameUI.resetUI();
+        this.PipePool.resetPool();
         director.resume();
     }
 
@@ -116,6 +123,16 @@ export class GameInstance extends Component {
         this.maxScore = Math.max(this.maxScore, this.currentScore);
         this.GameUI.onGameOver(this.maxScore);
         director.pause();
+    }
+
+    passPipe()
+    {
+        this.incrementScore();
+    }
+
+    createPipe()
+    {
+        this.PipePool.addPipeToPool();
     }
 }
 

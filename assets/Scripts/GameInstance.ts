@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode, director } from 'cc';
+import { _decorator, CCInteger, Component, Node, input, Input, EventKeyboard, KeyCode, director, Contact2DType, Collider2D, IPhysics2DContact } from 'cc';
 const { ccclass, property } = _decorator;
 
 import { Ground } from './Ground'
@@ -50,42 +50,30 @@ export class GameInstance extends Component {
     private currentScore: number;
     private maxScore: number;
 
+    gameActive: boolean;
+
     onLoad()
     {
         this.Ground.GroundScrollSpeed = this.Settings.ScrollSpeed;
         this.maxScore = 0;
 
-        this.startGame();
+        this.gameActive = false;
 
         this.initListener();
+        this.registerCollision();
     }
 
     initListener()
     {
-        input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
-
         this.node.on(Node.EventType.TOUCH_START, () => {
-            this.PlayerMovement.flap();
-        })
-    }
-
-    onKeyDown(event: EventKeyboard)
-    {
-        switch(event.keyCode)
-        {
-            case KeyCode.KEY_A:
-                this.incrementScore();
-                break;
-            case KeyCode.KEY_Z:
-                this.triggerGameOver();
-                break;
-            case KeyCode.KEY_R:
-                this.resetGame();
-                break;
-            case KeyCode.SPACE:
+            if(this.gameActive)
+            {
                 this.PlayerMovement.flap();
-                break;
-        }
+                return;
+            }
+            this.resetGame();
+            this.startGame();
+        })
     }
 
     startGame()
@@ -95,6 +83,7 @@ export class GameInstance extends Component {
 
     resetGame()
     {
+        this.gameActive = true;
         this.PlayerMovement.reset();
         this.setScore(0);
         this.GameUI.resetUI();
@@ -120,6 +109,7 @@ export class GameInstance extends Component {
 
     triggerGameOver()
     {
+        this.gameActive = false;
         this.maxScore = Math.max(this.maxScore, this.currentScore);
         this.GameUI.onGameOver(this.maxScore);
         director.pause();
@@ -133,6 +123,15 @@ export class GameInstance extends Component {
     createPipe()
     {
         this.PipePool.addPipeToPool();
+    }
+
+    registerCollision()
+    {
+        const playerColl = this.PlayerMovement.getComponent(Collider2D);
+
+        if(!playerColl) return;
+
+        playerColl.on(Contact2DType.BEGIN_CONTACT, this.triggerGameOver, this);
     }
 }
 

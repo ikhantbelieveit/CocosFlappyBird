@@ -21,19 +21,22 @@ export class PlayerMovement extends Component {
     public playerAnimation: Animation;
     public playerLocation: Vec3;
 
-    onLoad(){
+    onLoad()
+    {
         this.resetToPos = Vec3.ZERO;
         this.reset();
 
         this.playerAnimation = this.getComponent(Animation);
     }
 
-    reset(){
+    reset()
+    {
         this.node.setPosition(this.resetToPos);
     }
 
 
-    flap(){
+    flap()
+    {
         this.playerAnimation.stop();
 
         tween(this.node.position)
@@ -44,6 +47,11 @@ export class PlayerMovement extends Component {
         }).start();   
 
         this.playerAnimation.play();
+    }
+
+    onTouchHazard()
+    {
+
     }
 }
 

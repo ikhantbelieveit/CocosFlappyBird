@@ -482,7 +482,7 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "jumpHeight": 200,
+    "jumpHeight": 150,
     "jumpDuration": 0.35,
     "resetToPos": {
       "__type__": "cc.Vec3",
@@ -2073,7 +2073,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PipePool",
+    "_name": "PipePoolHome",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {

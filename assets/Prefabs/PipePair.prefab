@@ -384,6 +384,11 @@
     "bottomPipe": {
       "__id__": 8
     },
+    "gapRange": {
+      "__type__": "cc.Vec2",
+      "x": 80,
+      "y": 95
+    },
     "_id": ""
   },
   {
@@ -399,6 +404,7 @@
       "__id__": 0
     },
     "fileId": "155w1r2ZpGE5YSzxngjmQV",
+    "instance": null,
     "targetOverrides": null
   }
 ]

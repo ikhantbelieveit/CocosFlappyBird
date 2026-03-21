@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, screen, find, UITransform } from 'cc';
+import { _decorator, Component, Node, Vec3, screen, find, UITransform, Vec2 } from 'cc';
 const { ccclass, property } = _decorator;
 
 const random = (min, max) => 
@@ -19,13 +19,20 @@ export class PipePair extends Component {
     })
     public bottomPipe: Node;
 
-    public tempStartLocTop: Vec3 = new Vec3(0, 0, 0);
-    public tempStartLocBottom: Vec3 = new Vec3(0, 0, 0);
+    @property({
+        type: Vec2
+    })
+    public gapRange: Vec2 = new Vec2(90, 100);
+
+    @property({
+        type: Vec2
+    })
+    public topPosRange: Vec2 = new Vec2(0, 450);
+
     public sceneSize = screen.windowSize;
 
     public game;
     public pipeSpeed: number;
-    public tempSpeed: number;
 
     private hasPassed: boolean;
 
@@ -39,31 +46,37 @@ export class PipePair extends Component {
 
     initPosition(): void
     {
-        this.tempStartLocTop.x = this.topPipe.getComponent(UITransform).width + this.sceneSize.width;
-        this.tempStartLocBottom.x = this.topPipe.getComponent(UITransform).width + this.sceneSize.width;
+        const gap = random(this.gapRange.x, this.gapRange.y);
+        const topHeight = random(this.topPosRange.x, this.topPosRange.y);
 
-        const gap = random(90, 100);
-        const topHeight = random(0, 450);
+        const newPosTop = new Vec3(
+            this.topPipe.getComponent(UITransform).width + this.sceneSize.width,
+            topHeight,
+            0
+        );
 
-        this.tempStartLocTop.y = topHeight;
-        this.tempStartLocBottom.y = topHeight - (gap * 10);
+        const newPosBottom = new Vec3(
+            this.topPipe.getComponent(UITransform).width + this.sceneSize.width,
+            topHeight - (gap * 10),
+            0
+        );
 
-        this.bottomPipe.setPosition(this.tempStartLocBottom);
-        this.topPipe.setPosition(this.tempStartLocTop);
+        this.bottomPipe.setPosition(newPosBottom);
+        this.topPipe.setPosition(newPosTop);
     }
 
     update(dt: number): void
     {
-        this.tempSpeed = this.pipeSpeed * dt;
+        const tempSpeed = this.pipeSpeed * dt;
 
-        this.tempStartLocBottom = this.bottomPipe.position;
-        this.tempStartLocTop = this.topPipe.position;
+        let newPosBottom: Vec3 = this.bottomPipe.position;
+        newPosBottom.x -= tempSpeed;
 
-        this.tempStartLocBottom.x -= this.tempSpeed;
-        this.tempStartLocTop.x -= this.tempSpeed;
+        let newPosTop: Vec3 = this.topPipe.position;
+        newPosTop.x -= tempSpeed;
 
-        this.bottomPipe.setPosition(this.tempStartLocBottom);
-        this.topPipe.setPosition(this.tempStartLocTop);
+        this.bottomPipe.setPosition(newPosBottom);
+        this.topPipe.setPosition(newPosTop);
 
         if(!this.hasPassed && this.topPipe.position.x <= 0)
         {

@@ -17,7 +17,6 @@ export class PipePool extends Component {
     public PipePoolHome;
 
     public pool = new NodePool;
-    public createPipe;
 
     initPool()
     {
@@ -25,31 +24,21 @@ export class PipePool extends Component {
 
         for(let pipeIndex = 0; pipeIndex < startPoolCount; ++pipeIndex)
         {
-            this.createPipe = instantiate(this.PipePrefab);
+            const createPipe = instantiate(this.PipePrefab);
 
             if(pipeIndex == 0)
             {
-                this.PipePoolHome.addChild(this.createPipe);
+                this.PipePoolHome.addChild(createPipe);
+                return;
             }
-            else
-            {
-                this.pool.put(this.createPipe);
-            }
+            this.pool.put(createPipe);
         }
     }
 
     addPipeToPool()
     {
-        if(this.pool.size() > 0)
-        {
-            this.createPipe = this.pool.get();
-        }
-        else
-        {
-            this.createPipe = instantiate(this.PipePrefab);
-        }
-
-        this.PipePoolHome.addChild(this.createPipe);
+        const createPipe = this.pool.size() > 0 ? this.pool.get() : instantiate(this.PipePrefab);
+        this.PipePoolHome.addChild(createPipe);
     }
 
     resetPool()
